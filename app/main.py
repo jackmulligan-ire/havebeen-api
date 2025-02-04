@@ -1,8 +1,5 @@
 from fastapi import FastAPI
-from app.routers import email
-from dotenv import load_dotenv
-
-load_dotenv()
+from routers import email
 
 app = FastAPI()
 app.include_router(email.email_router)
