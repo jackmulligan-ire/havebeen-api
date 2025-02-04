@@ -1,0 +1,12 @@
+steps:
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      [
+        "build",
+        "--target=primary",
+        "-t",
+        "gcr.io/$PROJECT_ID/havebeen-api",
+        ".",
+      ]
+images:
+  - "gcr.io/$PROJECT_ID/havebeen-api"
