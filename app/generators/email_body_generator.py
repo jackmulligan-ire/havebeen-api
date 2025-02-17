@@ -1,4 +1,4 @@
-from models.call_request import CallRequest
+from models import CallRequest
 from huggingface_hub import InferenceClient
 from langchain_core.prompts import ChatPromptTemplate
 
@@ -25,7 +25,7 @@ class EmailBodyGenerator():
         return cls.chat_model.chat_completion(
             messages,
             temperature = 0.75,
-            max_tokens= 300
+            max_tokens = 300
         )
 
     @classmethod
@@ -39,4 +39,4 @@ class EmailBodyGenerator():
         ])
 
     def get_chain(self):
-        return EmailBodyGenerator._format_request | self._prompt_template | EmailBodyGenerator._extract_messages | EmailBodyGenerator._chat_completion | EmailBodyGenerator._extract_response
+        return self._format_request | self._prompt_template | self._extract_messages | self._chat_completion | self._extract_response

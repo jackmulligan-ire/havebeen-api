@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from services.email_body_service import EmailBodyService
 from services.email_title_service import EmailTitleService
-from models.call_request import CallRequest, EmailResponse
+from models import CallRequest, EmailResponse
 
 email_router = APIRouter()
 

@@ -9,3 +9,6 @@ class CallRequest(BaseModel):
 class EmailResponse(BaseModel):
     title: str
     body: str
+
+class EmailBody(str): pass
+class EmailTitle(str): pass
