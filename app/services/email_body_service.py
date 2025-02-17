@@ -1,12 +1,11 @@
-from models.call_request import CallRequest, EmailResponse
+from models.call_request import CallRequest
 from services.generators.email_body_generator import EmailBodyGenerator
 from services.system_prompt_service import SystemPromptService
 from prompts.email_body_prompts import example_prompts, negative_prompts, task_prompts
-import json
 
 class EmailBodyService():
     @classmethod
-    def generate_email_body(cls, request: CallRequest) -> EmailResponse:
+    def generate_email_body(cls, request: CallRequest) -> str:
         system_prompt_service = SystemPromptService([example_prompts, negative_prompts, task_prompts])
         system_prompt = system_prompt_service.get_system_prompt()
         email_body_generator = EmailBodyGenerator(system_prompt)

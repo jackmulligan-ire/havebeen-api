@@ -1,20 +1,11 @@
-from models.call_request import CallRequest
 from huggingface_hub import InferenceClient
 from langchain_core.prompts import ChatPromptTemplate
 
 
-class EmailBodyGenerator():
+class EmailTitleGenerator():
     chat_model = InferenceClient(
         model = "mistralai/Mistral-7B-Instruct-v0.3",
     )
-
-    @classmethod
-    def _format_request(cls, request: CallRequest):
-        output_string = ""
-        for key, value in dict(request).items():
-            if value: output_string += f"{key}: {value}\n"
-
-        return output_string
     
     @classmethod
     def _extract_messages(cls, prompt_value):
@@ -24,8 +15,8 @@ class EmailBodyGenerator():
     def _chat_completion(cls, messages):
         return cls.chat_model.chat_completion(
             messages,
-            temperature = 1.1,
-            max_tokens= 150
+            temperature = 1,
+            max_tokens=15
         )
 
     @classmethod
@@ -38,4 +29,4 @@ class EmailBodyGenerator():
         ])
 
     def get_chain(self):
-        return EmailBodyGenerator._format_request | self._prompt_template | EmailBodyGenerator._extract_messages | EmailBodyGenerator._chat_completion | EmailBodyGenerator._extract_response
+        return self._prompt_template | self._extract_messages | self._chat_completion | self._extract_response
