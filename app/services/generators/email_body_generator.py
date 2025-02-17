@@ -5,7 +5,7 @@ from langchain_core.prompts import ChatPromptTemplate
 
 class EmailBodyGenerator():
     chat_model = InferenceClient(
-        model = "mistralai/Mistral-7B-Instruct-v0.3",
+        model = "meta-llama/Llama-3.2-3B-Instruct",
     )
 
     @classmethod
@@ -18,14 +18,14 @@ class EmailBodyGenerator():
     
     @classmethod
     def _extract_messages(cls, prompt_value):
-        return [{"content": message.content, "role": "user"} for message in prompt_value.to_messages()]
+        return [{"content": message.content, "role": message.type} for message in prompt_value.to_messages()]
     
     @classmethod
     def _chat_completion(cls, messages):
         return cls.chat_model.chat_completion(
             messages,
-            temperature = 1.1,
-            max_tokens= 150
+            temperature = 0.75,
+            max_tokens= 300
         )
 
     @classmethod
@@ -34,7 +34,8 @@ class EmailBodyGenerator():
     
     def __init__(self, system_prompt):
         self._prompt_template = ChatPromptTemplate([
-            ("user", system_prompt),
+            ("system", system_prompt),
+            ("user", "{user_input}")
         ])
 
     def get_chain(self):
