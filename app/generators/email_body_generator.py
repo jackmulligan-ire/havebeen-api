@@ -1,12 +1,10 @@
 from models import CallRequest
-from huggingface_hub import InferenceClient
+from huggingface_hub import HfApi
 from langchain_core.prompts import ChatPromptTemplate
 
 
 class EmailBodyGenerator():
-    chat_model = InferenceClient(
-        model = "meta-llama/Llama-3.2-3B-Instruct",
-    )
+    endpoint = HfApi().get_inference_endpoint("llama-3-2-3b-instruct-havebeen")
 
     @classmethod
     def _format_request(cls, request: CallRequest):
@@ -22,7 +20,7 @@ class EmailBodyGenerator():
     
     @classmethod
     def _chat_completion(cls, messages):
-        return cls.chat_model.chat_completion(
+        return cls.endpoint.client.chat_completion(
             messages,
             temperature = 0.75,
             max_tokens = 300
