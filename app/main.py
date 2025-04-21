@@ -9,6 +9,7 @@ app.include_router(email.email_router)
 origins = [
     "http://localhost",
     "http://localhost:3000",
+    "https://havebeen-client-1012251451645.europe-west1.run.app"
 ]
 
 app.add_middleware(
