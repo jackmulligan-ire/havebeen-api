@@ -8,5 +8,23 @@ steps:
         "gcr.io/$PROJECT_ID/havebeen-api",
         ".",
       ]
+  - name: 'gcr.io/cloud-builders/docker'
+    args: 
+      [
+        'push', 
+        'gcr.io/$PROJECT_ID/havebeen-api'
+      ]
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: 
+      [
+        'run', 
+        'deploy', 'havebeen-api', 
+        '--image', 'gcr.io/$PROJECT_ID/havebeen-api', 
+        '--region', 'europe-west1',
+        '--set-secrets', 'HF_TOKEN=HF_TOKEN:latest'
+      ]
 images:
   - "gcr.io/$PROJECT_ID/havebeen-api"
+options:
+  logging: CLOUD_LOGGING_ONLY
