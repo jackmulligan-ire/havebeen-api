@@ -1,7 +1,8 @@
 from fastapi import APIRouter
 from services.email_body_service import EmailBodyService
 from services.email_title_service import EmailTitleService
-from models import CallRequest, EmailResponse
+from services.email_body_modification_service import EmailBodyModificationService
+from models import CallRequest, EmailResponse, EmailBodyModificationRequest, EmailBodyModificationResponse
 
 email_router = APIRouter()
 
@@ -12,4 +13,11 @@ def generate_email(request: CallRequest) -> EmailResponse:
     return {
         "title": email_title,
         "body": email_body
+    }
+
+@email_router.post('/email/modify-body')
+def modify_email_body(request: EmailBodyModificationRequest) -> EmailBodyModificationResponse:
+    modified_body = EmailBodyModificationService.modify_email_body(request)
+    return {
+        "body": modified_body
     }

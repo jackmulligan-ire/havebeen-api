@@ -1,13 +1,14 @@
-from models import CallRequest
+from models import CallRequest, EmailBodyModificationRequest
 from huggingface_hub import HfApi
 from langchain_core.prompts import ChatPromptTemplate
+from typing import Union
 
 
 class EmailBodyGenerator():
     endpoint = HfApi().get_inference_endpoint("llama-3-2-3b-instruct-havebeen")
 
     @classmethod
-    def _format_request(cls, request: CallRequest):
+    def _format_request(cls, request: Union[CallRequest, EmailBodyModificationRequest]):
         output_string = ""
         for key, value in dict(request).items():
             if value: output_string += f"{key}: {value}\n"

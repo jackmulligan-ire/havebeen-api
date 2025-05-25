@@ -1,4 +1,4 @@
-FROM python:3.10 as base
+FROM python:3.10 AS base
 
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -8,11 +8,11 @@ COPY /app .
 
 EXPOSE 8080
 
-FROM base as primary
+FROM base AS primary
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
 
-FROM base as debugger
+FROM base AS debugger
 
 RUN pip install debugpy
 
